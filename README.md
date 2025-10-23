@@ -49,8 +49,8 @@
 ---
 
 ## Requirements 🔧
-- Node.js 18+ (20+ recommended)
-- pnpm 9/10+
+- Node.js 22.20.0
+- pnpm 10.9.0
 - **Supabase** account (project + keys)
 - API Key **OpenAI**
 
