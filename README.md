@@ -65,13 +65,13 @@ VITE_API_URL=http://localhost:8787
 
 **`apps/api/.env`**
 
-
+```
 PORT=8787
 OPENAI_API_KEY=🔧
 SUPABASE_URL=🔧
 SUPABASE_ANON_KEY=🔧
 SUPABASE_SERVICE_ROLE_KEY=🔧 # server-only, jangan ke client!
-
+```
 
 > Contoh tersedia di: `apps/web/.env.example` & `apps/api/.env.example`.
 
