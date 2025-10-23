@@ -36,7 +36,7 @@
 ---
 
 ## Struktur Monorepo 📦
-tavano/
+```tavano/
 ├─ apps/
 │ ├─ web/ # React + Vite + TS + Tailwind + Framer
 │ └─ api/ # Express + TS + supabase-js + OpenAI
@@ -44,6 +44,7 @@ tavano/
 │ └─ shared/ # (opsional) shared types/constants
 ├─ pnpm-workspace.yaml
 └─ README.md
+```
 
 ---
 
