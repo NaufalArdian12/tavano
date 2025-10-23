@@ -1,20 +1,20 @@
-# Tavano Lite — Belajar Pecahan Visual + AI Tutor ✨
+# Tavano Lite — Visual Fraction Learning + AI Tutor ✨
 
-> **Tavano Lite** adalah web app belajar **Matematika (Pecahan)** untuk SD/SMP yang fokus ke **visual learning**, **quiz interaktif**, dan **feedback AI** yang ramah anak.
+> **Tavano Lite** is a web app for learning **Mathematics (Fractions)** for elementary and middle school students, focusing on **visual learning**, **interactive quizzes**, and **friendly AI feedback**.
 
 ## Demo 🚀
 - Live App: 🔧 https://…
 - API Health: 🔧 https://…/health
-- Video Demo (≤ 5 menit): 🔧 https://…
+- Video Demo (≤ 5 minutes): 🔧 https://…
 
 ---
 
-## Fitur 🍕
-- **Visual Step Learning**: materi per langkah (gambar & hints).
-- **Quiz Interaktif**: pilihan gambar & drag-drop.
-- **AI Grading (ChatGPT)**: Benar / Hampir Benar / Perlu Revisi + hint 1–2 kalimat.
-- **Progress Tracking**: mastery per topik + step terakhir.
-- **Sticker Rewards**: koleksi stiker motivasi.
+## Features 🍕
+- **Visual Step Learning**: step-by-step materials (illustrations & hints).
+- **Interactive Quiz**: image choices & drag-and-drop.
+- **AI Grading (ChatGPT)**: Correct / Almost Correct / Needs Revision + 1–2 sentence hints.
+- **Progress Tracking**: mastery per topic + last step.
+- **Sticker Rewards**: motivational sticker collection.
 
 ---
 
@@ -31,49 +31,49 @@
 
 **Dev**
 - pnpm workspaces (monorepo)
-- ESM Node (NodeNext) atau Bundled (opsional)
+- ESM Node (NodeNext) or Bundled (optional)
 
 ---
 
-## Struktur Monorepo 📦
+## Monorepo Structure 📦
 ```tavano/
 ├─ apps/
 │ ├─ web/ # React + Vite + TS + Tailwind + Framer
 │ └─ api/ # Express + TS + supabase-js + OpenAI
 ├─ packages/
-│ └─ shared/ # (opsional) shared types/constants
+│ └─ shared/ # (optional) shared types/constants
 ├─ pnpm-workspace.yaml
 └─ README.md
 ```
 
 ---
 
-## Persiapan 🔧
-- Node.js 18+ (disarankan 20+)
+## Requirements 🔧
+- Node.js 18+ (20+ recommended)
 - pnpm 9/10+
-- Akun **Supabase** (project + keys)
+- **Supabase** account (project + keys)
 - API Key **OpenAI**
 
 ---
 
 ## Environment Variables 🔑
 **`apps/web/.env`**
+```
 VITE_SUPABASE_URL=🔧
 VITE_SUPABASE_ANON_KEY=🔧
 VITE_API_URL=http://localhost:8787
-
+```
 
 **`apps/api/.env`**
-
 ```
 PORT=8787
 OPENAI_API_KEY=🔧
 SUPABASE_URL=🔧
 SUPABASE_ANON_KEY=🔧
-SUPABASE_SERVICE_ROLE_KEY=🔧 # server-only, jangan ke client!
+SUPABASE_SERVICE_ROLE_KEY=🔧 # server-only, do not expose to client!
 ```
 
-> Contoh tersedia di: `apps/web/.env.example` & `apps/api/.env.example`.
+> Examples are available in: `apps/web/.env.example` & `apps/api/.env.example`.
 
 ---
 
@@ -82,16 +82,15 @@ SUPABASE_SERVICE_ROLE_KEY=🔧 # server-only, jangan ke client!
 # 1) install dependencies
 pnpm install
 
-# 2a) jalankan API (dari root)
+# 2a) run API (from root)
 pnpm dev:api
 
-# 2b) jalankan Web (dari root)
+# 2b) run Web (from root)
 pnpm dev:web
 
-# atau keduanya bareng
+# or run both
 pnpm dev
 ```
-URL default
-Web: http://localhost:5173
+URL default  
+Web: http://localhost:5173  
 API: http://localhost:8787
-
