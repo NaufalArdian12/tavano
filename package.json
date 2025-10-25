@@ -4,7 +4,10 @@
   "private": true,
   "description": "",
   "main": "index.js",
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:web": "pnpm --filter web dev",
@@ -12,7 +15,7 @@
     "dev": "pnpm -w dlx concurrently -n WEB,API -c blue,green \"pnpm dev:web\" \"pnpm dev:api\""
   },
   "devDependencies": {
-    "concurrently": "^9.0.0"
+    "concurrently": "^9.2.1"
   },
   "keywords": [],
   "author": "",
