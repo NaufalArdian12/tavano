@@ -1,10 +1,10 @@
-import { Router } from "express";   
+import { Router } from "express";
 import type { Router as ExpressRouter } from "express";
 import { sbService } from "../lib/sb.js";
 import { openai } from "../lib/openai.js";
 import { authGuard } from "../middleware/authGuard.js";
 
-const r : ExpressRouter = Router();
+const r: ExpressRouter = Router();
 
 r.post("/ai/grade", authGuard, async (req, res) => {
     try {
