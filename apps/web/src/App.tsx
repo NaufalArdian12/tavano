@@ -1,5 +1,5 @@
 import AnswerCard from "./components/quiz/AnsweredCard";
-export default function App(){
+export default function App() {
   // quizId contoh: ganti id real dari DB
   return (
     <main className="max-w-2xl mx-auto p-6">
