@@ -15,7 +15,6 @@ export async function registerWithEmail(email: string, password: string, display
   return data.session?.access_token ?? null;
 }
 
-/** panggil BFF untuk memastikan row profiles ada & sinkron */
 export async function ensureProfile(token: string) {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/profile/sync`, {
     method: "POST",

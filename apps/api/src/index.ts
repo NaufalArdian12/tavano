@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import aiRoutes from "./routes/ai.js";
 import { Prisma, PrismaClient } from '@prisma/client';
+import profileRoutes from "./routes/Profiles.js"
 
 const app = express();
 app.use(cors());
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 app.use("/api", aiRoutes);
+app.use("/api/profile", profileRoutes)
 
 const prisma = new PrismaClient();
 
@@ -26,11 +28,6 @@ async function testDbConnection() {
 }
 
 testDbConnection();
-
-app.get("/users", async (_req, res) => {
-  const users = await prisma.user.findMany();
-  res.json(users);
-});
 
 const port = Number(process.env.PORT) || 8787;
 app.listen(port, () => console.log(`API running on :${port}`));
