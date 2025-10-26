@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 import aiRoutes from "./routes/ai.js";
 import { Prisma, PrismaClient } from '@prisma/client';
-import profileRoutes from "./routes/Profiles.js"
+import profileRoutes from "./routes/profiles.js"
 
 const app = express();
 app.use(cors());
