@@ -4,117 +4,19 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL") // pooling (runtime)
-  directUrl = env("DIRECT_URL") // direct (migrate)
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-enum quiz_type {
-  DRAG_DROP
-  CHOICE_IMAGE
-  ESSAY
-}
+model Profile {
+  id         String   @id @db.Uuid
+  username   String?
+  full_name  String?
+  avatar_url String?
+  email      String?
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
 
-model Topic {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title       String
-  slug        String   @unique
-  grade_level Int?
-  description String?
-  created_at  DateTime @default(now()) @db.Timestamptz(6)
-
-  Steps        Step[]
-  Quizzes      Quiz[]
-  UserProgress UserProgress[]
-}
-
-model Step {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  topic_id   String   @db.Uuid
-  order      Int
-  title      String
-  content    Json     @default("{}")
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-
-  Topic Topic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
-
-  @@unique([topic_id, order])
-}
-
-model Quiz {
-  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  topic_id         String    @db.Uuid
-  type             quiz_type
-  prompt           String
-  meta             Json?
-  canonical_answer String?
-  objectives       String?
-  created_at       DateTime  @default(now()) @db.Timestamptz(6)
-
-  Topic    Topic        @relation(fields: [topic_id], references: [id], onDelete: Cascade)
-  Options  QuizOption[]
-  Attempts Attempt[]
-
-  @@index([topic_id])
-}
-
-model QuizOption {
-  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  quiz_id    String  @db.Uuid
-  image_url  String?
-  label      String?
-  is_correct Boolean @default(false)
-  meta       Json?
-  Quiz       Quiz    @relation(fields: [quiz_id], references: [id], onDelete: Cascade)
-
-  @@index([quiz_id])
-}
-
-model UserProgress {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id    String   @db.Uuid // refer ke auth.users.id (tidak dimodelkan lintas schema)
-  topic_id   String   @db.Uuid
-  step_done  Int      @default(0)
-  mastery    Int      @default(0) // 0..100
-  updated_at DateTime @default(now()) @db.Timestamptz(6)
-
-  Topic Topic @relation(fields: [topic_id], references: [id], onDelete: Cascade)
-
-  @@unique([user_id, topic_id])
-}
-
-model Sticker {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String
-  image_url   String
-  requirement Json?
-  is_active   Boolean  @default(true)
-  created_at  DateTime @default(now()) @db.Timestamptz(6)
-
-  Claims UserSticker[]
-}
-
-model UserSticker {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id    String   @db.Uuid
-  sticker_id String   @db.Uuid
-  claimed_at DateTime @default(now()) @db.Timestamptz(6)
-
-  Sticker Sticker @relation(fields: [sticker_id], references: [id], onDelete: Cascade)
-
-  @@unique([user_id, sticker_id])
-}
-
-model Attempt {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id    String   @db.Uuid
-  quiz_id    String   @db.Uuid
-  answer     String
-  label      String // 'BENAR' | 'HAMPIR_BENAR' | 'PERLU_REVISI'
-  feedback   String
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-
-  Quiz Quiz @relation(fields: [quiz_id], references: [id], onDelete: Cascade)
-
-  @@index([user_id])
-  @@index([quiz_id])
+  @@map("profiles")
+  @@index([email], map: "profiles_email_idx")
 }
