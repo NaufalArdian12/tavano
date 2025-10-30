@@ -14,16 +14,17 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [err, setErr] = useState<string|null>(null);
+  const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const submit = async () => {
-    setErr(null); setLoading(true);
+    setErr(null);
+    setLoading(true);
     try {
       const token = await loginWithEmail(email, password);
       if (!token) throw new Error("Session kosong. Cek email verifikasi.");
       setToken(token);
-      await ensureProfile(token); // ⬅️ sync/ensure profiles di BE
+      await ensureProfile(token);
       const to = (loc.state as { from?: string } | null)?.from || "/";
       nav(to, { replace: true });
     } catch (e) {
@@ -36,13 +37,27 @@ export default function Login() {
   return (
     <AuthCard title="Masuk" subtitle="Lanjutkan belajar pecahan">
       <div className="space-y-4">
-        <Input placeholder="Email" type="email" value={email} onChange={e=>setEmail(e.target.value)} />
-        <Input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
+        <Input
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         {err && <div className="text-sm text-red-600">{err}</div>}
-        <Button onClick={submit} loading={loading}>Masuk</Button>
+        <Button onClick={submit} loading={loading}>
+          Masuk
+        </Button>
         <p className="text-center text-sm text-gray-600">
           Belum punya akun?{" "}
-          <Link className="underline" to="/register">Daftar</Link>
+          <Link className="underline" to="/register">
+            Daftar
+          </Link>
         </p>
       </div>
     </AuthCard>

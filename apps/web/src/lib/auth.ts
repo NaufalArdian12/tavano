@@ -1,4 +1,3 @@
-// src/lib/auth.ts
 import { sb } from "./supabase";
 
 export async function loginWithEmail(email: string, password: string) {

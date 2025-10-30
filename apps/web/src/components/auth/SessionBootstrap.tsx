@@ -11,6 +11,7 @@ export default function SessionBootstrap({ children }: { children: React.ReactNo
     (async () => {
       try {
         const { data } = await sb.auth.getSession();
+        console.log("Auth session:", data);
         setToken(data.session?.access_token ?? localStorage.getItem("token"));
         const r = sb.auth.onAuthStateChange((_e, session) => {
           setToken(session?.access_token ?? null);

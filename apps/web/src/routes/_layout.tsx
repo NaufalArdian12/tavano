@@ -11,7 +11,7 @@ export default function AppLayout() {
     (async () => {
       const { data } = await sb.auth.getSession();
       setToken(data.session?.access_token ?? localStorage.getItem("token"));
-      setReady(true); // ✅ selesai restore
+      setReady(true);
     })();
     const { data: sub } = sb.auth.onAuthStateChange((_e, session) => {
       setToken(session?.access_token ?? null);

@@ -14,11 +14,12 @@ export default function Register() {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [err, setErr] = useState<string|null>(null);
+  const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const submit = async () => {
-    setErr(null); setLoading(true);
+    setErr(null);
+    setLoading(true);
     try {
       const token = await registerWithEmail(email, password, displayName);
       if (!token) {
@@ -39,14 +40,32 @@ export default function Register() {
   return (
     <AuthCard title="Daftar" subtitle="Buat akun untuk simpan progres">
       <div className="space-y-4">
-        <Input placeholder="Nama panggilan (display name)" value={displayName} onChange={e=>setDisplayName(e.target.value)} />
-        <Input placeholder="Email" type="email" value={email} onChange={e=>setEmail(e.target.value)} />
-        <Input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
+        <Input
+          placeholder="Nama panggilan (display name)"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+        />
+        <Input
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         {err && <div className="text-sm text-red-600">{err}</div>}
-        <Button onClick={submit} loading={loading}>Daftar</Button>
+        <Button onClick={submit} loading={loading}>
+          Daftar
+        </Button>
         <p className="text-center text-sm text-gray-600">
           Sudah punya akun?{" "}
-          <Link className="underline" to="/login">Masuk</Link>
+          <Link className="underline" to="/login">
+            Masuk
+          </Link>
         </p>
       </div>
     </AuthCard>

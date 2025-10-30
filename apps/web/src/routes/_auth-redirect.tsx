@@ -5,11 +5,15 @@ type AuthLocationState = {
   from?: string;
 };
 
-export default function AuthRedirect({ children }: { children: React.ReactNode }) {
+export default function AuthRedirect({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { token } = useSession();
   const loc = useLocation();
   const state = loc.state as AuthLocationState | null;
-  const to = state?.from || "/";
+  const to = state?.from || "/dashboard";
 
   if (token) {
     return <Navigate to={to} replace />;

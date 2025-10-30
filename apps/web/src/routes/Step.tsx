@@ -23,11 +23,20 @@ export default function Step() {
         <p className="text-gray-500">[ Video Placeholder ]</p>
       </div>
 
-      <p className="text-sm text-gray-700">Hint: Bayangkan pizza dibagi menjadi beberapa bagian.</p>
+      <p className="text-sm text-gray-700">
+        Hint: Bayangkan pizza dibagi menjadi beberapa bagian.
+      </p>
 
       <div className="flex gap-2">
-        <Link to={`/topic/${slug}`} className="px-3 py-2 rounded border">Kembali</Link>
-        <button onClick={next} className="px-3 py-2 rounded bg-black text-white">Lanjut</button>
+        <Link to={`/topic/${slug}`} className="px-3 py-2 rounded border">
+          Kembali
+        </Link>
+        <button
+          onClick={next}
+          className="px-3 py-2 rounded bg-black text-white"
+        >
+          Lanjut
+        </button>
       </div>
     </main>
   );

@@ -3,7 +3,7 @@ import { sb } from "../lib/supabase"; // Import Supabase Client
 
 export default function Dashboard() {
   // TODO: fetch user_progress + user_stickers
-  
+
   // Placeholder Data
   const userProgress = {
     topicsCompleted: 3,
@@ -12,12 +12,20 @@ export default function Dashboard() {
     level: "Novice Fractioner",
     stepsRemaining: 7,
   };
-  
+
   const userStickers = [
     { name: "Pecahan Dasar", icon: "🍰", description: "Selesaikan Step 1" },
-    { name: "Master Penjumlahan", icon: "➕", description: "Dapatkan skor A di Kuis 2" },
+    {
+      name: "Master Penjumlahan",
+      icon: "➕",
+      description: "Dapatkan skor A di Kuis 2",
+    },
     { name: "The Explorer", icon: "🗺️", description: "Kunjungi 3 Topik" },
-    { name: "Early Bird", icon: "☀️", description: "Login 3 hari berturut-turut" },
+    {
+      name: "Early Bird",
+      icon: "☀️",
+      description: "Login 3 hari berturut-turut",
+    },
   ];
 
   const handleLogout = async () => {
@@ -31,7 +39,6 @@ export default function Dashboard() {
 
   return (
     <main className="max-w-5xl mx-auto p-8 md:p-12 space-y-8">
-      
       {/* Header Dashboard */}
       <div className="flex justify-between items-center border-b pb-4">
         <div className="flex items-center space-x-4">
@@ -40,7 +47,7 @@ export default function Dashboard() {
             Ringkasan Dashboard
           </h1>
         </div>
-        
+
         {/* Tombol Logout */}
         <button
           onClick={handleLogout}
@@ -53,7 +60,6 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
         {/* === PROGRESS SUMMARY (Main Column) === */}
         <section className="lg:col-span-2 space-y-6">
           <h2 className="text-xl font-bold text-gray-800 flex items-center space-x-2">
@@ -62,11 +68,12 @@ export default function Dashboard() {
           </h2>
 
           <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 space-y-4">
-            
             {/* Level Card */}
             <div className="bg-indigo-600 text-white p-5 rounded-xl shadow-lg flex justify-between items-center">
               <div>
-                <p className="text-sm font-medium opacity-80">Level Anda Saat Ini:</p>
+                <p className="text-sm font-medium opacity-80">
+                  Level Anda Saat Ini:
+                </p>
                 <p className="text-2xl font-extrabold">{userProgress.level}</p>
               </div>
               <Zap className="w-8 h-8 opacity-70" />
@@ -75,16 +82,43 @@ export default function Dashboard() {
             {/* Key Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
               {[
-                { label: "Topik Selesai", value: userProgress.topicsCompleted, unit: "Topik", icon: "📚" },
-                { label: "Skor Kuis Rata-Rata", value: userProgress.quizScore, unit: "%", icon: "💯" },
-                { label: "Langkah Tersisa", value: userProgress.stepsRemaining, unit: "Langkah", icon: "🚶" },
-                { label: "Aktivitas Terakhir", value: userProgress.lastActivity, unit: "", icon: "⌚" },
+                {
+                  label: "Topik Selesai",
+                  value: userProgress.topicsCompleted,
+                  unit: "Topik",
+                  icon: "📚",
+                },
+                {
+                  label: "Skor Kuis Rata-Rata",
+                  value: userProgress.quizScore,
+                  unit: "%",
+                  icon: "💯",
+                },
+                {
+                  label: "Langkah Tersisa",
+                  value: userProgress.stepsRemaining,
+                  unit: "Langkah",
+                  icon: "🚶",
+                },
+                {
+                  label: "Aktivitas Terakhir",
+                  value: userProgress.lastActivity,
+                  unit: "",
+                  icon: "⌚",
+                },
               ].map((stat, index) => (
-                <div key={index} className="p-3 bg-gray-50 border border-gray-200 rounded-lg text-center shadow-sm">
+                <div
+                  key={index}
+                  className="p-3 bg-gray-50 border border-gray-200 rounded-lg text-center shadow-sm"
+                >
                   <div className="text-2xl">{stat.icon}</div>
                   <div className="text-lg font-bold text-gray-800 mt-1">
                     {stat.value}
-                    {stat.unit && <span className="text-sm font-medium ml-1">{stat.unit}</span>}
+                    {stat.unit && (
+                      <span className="text-sm font-medium ml-1">
+                        {stat.unit}
+                      </span>
+                    )}
                   </div>
                   <p className="text-xs text-gray-500 mt-0.5">{stat.label}</p>
                 </div>
@@ -99,20 +133,29 @@ export default function Dashboard() {
             <Sparkles className="w-6 h-6 text-yellow-500" />
             <span>Koleksi Stiker</span>
           </h2>
-          
+
           <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
-            <p className="text-sm text-gray-500 mb-4">Kumpulkan stiker dengan menyelesaikan tugas dan kuis!</p>
-            
+            <p className="text-sm text-gray-500 mb-4">
+              Kumpulkan stiker dengan menyelesaikan tugas dan kuis!
+            </p>
+
             <div className="grid grid-cols-2 gap-4">
               {userStickers.map((sticker, index) => (
-                <div key={index} className="text-center p-3 bg-teal-50 border border-teal-200 rounded-lg shadow-md hover:bg-teal-100 transition duration-150 transform hover:scale-105">
+                <div
+                  key={index}
+                  className="text-center p-3 bg-teal-50 border border-teal-200 rounded-lg shadow-md hover:bg-teal-100 transition duration-150 transform hover:scale-105"
+                >
                   <div className="text-3xl mb-1">{sticker.icon}</div>
-                  <p className="font-semibold text-gray-800 text-sm">{sticker.name}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{sticker.description}</p>
+                  <p className="font-semibold text-gray-800 text-sm">
+                    {sticker.name}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    {sticker.description}
+                  </p>
                 </div>
               ))}
             </div>
-            
+
             {userStickers.length === 0 && (
               <div className="p-4 bg-gray-50 rounded-lg text-center text-gray-500">
                 Kumpulkan stiker pertama Anda hari ini 🎉
