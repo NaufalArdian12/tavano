@@ -23,12 +23,11 @@ export default function Register() {
     try {
       const token = await registerWithEmail(email, password, displayName);
       if (!token) {
-        // jika verifikasi email ON, user harus cek email → arahkan ke login
         nav("/login", { replace: true });
         return;
       }
       setToken(token);
-      await ensureProfile(token); // ⬅️ create/upsert profiles di BE pakai display_name dari metadata
+      await ensureProfile(token);
       nav("/", { replace: true });
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Gagal daftar");

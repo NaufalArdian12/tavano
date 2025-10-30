@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { Sparkles, ArrowRight } from "lucide-react";
+import AnswerCardWithSteps from "../components/quiz/AnsweredCardWithSteps";
 
 export default function Topic() {
   const { slug } = useParams();
@@ -58,6 +59,7 @@ export default function Topic() {
             </li>
           ))}
         </ul>
+            <AnswerCardWithSteps quizId={"QUIZ_ID_TEST"} />
       </section>
 
       {/* Footer Link */}

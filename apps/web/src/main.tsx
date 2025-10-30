@@ -6,12 +6,12 @@ import "./index.css";
 import RequireAuth from "./components/auth/RequireAuth";
 import SessionBootstrap from "./components/auth/SessionBootstrap";
 
-const Login = lazy(()=>import("./routes/Login"));
-const Register = lazy(()=>import("./routes/Register"));
-const Topic = lazy(()=>import("./routes/Topic"));
-const Step = lazy(()=>import("./routes/Step"));
-const Quiz = lazy(()=>import("./routes/Quiz"));
-const Dashboard = lazy(()=>import("./routes/Dashboard"));
+const Login = lazy(() => import("./routes/Login"));
+const Register = lazy(() => import("./routes/Register"));
+const Topic = lazy(() => import("./routes/Topic"));
+const Step = lazy(() => import("./routes/Step"));
+const Quiz = lazy(() => import("./routes/Quiz"));
+const Dashboard = lazy(() => import("./routes/Dashboard"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

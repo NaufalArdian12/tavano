@@ -1,4 +1,4 @@
-import AnswerCard from "./components/quiz/AnsweredCard";
+import AnswerCard from "./components/quiz/AnsweredCardWithSteps";
 export default function App() {
   // quizId contoh: ganti id real dari DB
   return (
