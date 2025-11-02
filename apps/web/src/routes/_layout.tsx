@@ -1,4 +1,3 @@
-// src/routes/_layout.tsx
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { sb } from "../lib/supabase";

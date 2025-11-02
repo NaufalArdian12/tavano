@@ -9,9 +9,8 @@ export default function Topic() {
     { n: 2, title: "Penjumlahan dan Pengurangan Pecahan" },
     { n: 3, title: "Perkalian dan Pembagian Pecahan" },
     { n: 4, title: "Latihan Ulang dan Review" },
-  ]; // placeholder dengan data lebih kaya
+  ];
 
-  // Format slug agar lebih mudah dibaca (e.g., "pecahan-dasar" -> "Pecahan Dasar")
   const formattedSlug =
     slug
       ?.split("-")

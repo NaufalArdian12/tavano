@@ -1,15 +1,12 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-// TODO: import VideoPlayer jika ada
 
 export default function Step() {
   const nav = useNavigate();
   const { slug, n } = useParams();
   const stepNum = Number(n ?? 1);
 
-  // TODO: fetch step content (video url + hint) dari Supabase
 
   const next = () => {
-    // contoh: setelah step 3, pindah ke quiz dengan id tertentu
     if (stepNum >= 3) nav(`/quiz/demo-quiz-id`);
     else nav(`/topic/${slug}/step/${stepNum + 1}`);
   };

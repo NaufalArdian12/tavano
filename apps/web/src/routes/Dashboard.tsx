@@ -1,10 +1,8 @@
 import { Zap, Trophy, TrendingUp, Sparkles, LogOut } from "lucide-react";
-import { sb } from "../lib/supabase"; // Import Supabase Client
+import { sb } from "../lib/supabase";
 
 export default function Dashboard() {
-  // TODO: fetch user_progress + user_stickers
 
-  // Placeholder Data
   const userProgress = {
     topicsCompleted: 3,
     quizScore: 85,
@@ -31,7 +29,6 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       await sb.auth.signOut();
-      // AuthRedirect atau AppLayout akan menangani navigasi ke halaman login setelah token hilang
     } catch (error) {
       console.error("Gagal Logout:", error);
     }

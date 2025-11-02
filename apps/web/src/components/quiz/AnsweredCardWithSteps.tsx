@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { api } from "../../lib/api";
 import { useSession } from "../../store/session";
@@ -8,8 +8,14 @@ type GradeRes = { label: GradeLabel; feedback: string };
 
 type Props = {
   quizId: string;
-  quizPrompt?: string; // opsional: kalau kamu sudah fetch prompt di parent
-  minStepsChars?: number; // default 30
+  quizPrompt?: string; // jika tidak ada, kita fetch otomatis
+  minStepsChars?: number;
+};
+
+type QuizDTO = {
+  id: string;
+  prompt: string;
+  // field lain kalau perlu…
 };
 
 export default function AnswerCardWithSteps({
@@ -18,6 +24,58 @@ export default function AnswerCardWithSteps({
   minStepsChars = 30,
 }: Props) {
   const { token } = useSession();
+
+  // ---- Prompt state (auto-fetch jika props tidak ada) ----
+  const [prompt, setPrompt] = useState<string>(quizPrompt ?? "");
+  const [promptLoading, setPromptLoading] = useState<boolean>(!quizPrompt);
+  const [promptError, setPromptError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let canceled = false;
+
+    async function loadPrompt() {
+      if (quizPrompt) {
+        setPrompt(quizPrompt);
+        setPromptLoading(false);
+        setPromptError(null);
+        return;
+      }
+      setPromptLoading(true);
+      setPromptError(null);
+
+      try {
+        // Coba endpoint RESTful: /api/quizzes/:id
+        const res = await fetch(`/api/quizzes/${encodeURIComponent(quizId)}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        if (!res.ok) {
+          // fallback: /api/quiz?quizId=...
+          const res2 = await fetch(
+            `/api/quiz?quizId=${encodeURIComponent(quizId)}`,
+            {
+              headers: token ? { Authorization: `Bearer ${token}` } : {},
+            }
+          );
+          if (!res2.ok) throw new Error("Gagal memuat soal");
+          const data2 = (await res2.json()) as QuizDTO;
+          if (!canceled) setPrompt(data2.prompt ?? "");
+        } else {
+          const data = (await res.json()) as QuizDTO;
+          if (!canceled) setPrompt(data.prompt ?? "");
+        }
+      } catch (e) {
+        if (!canceled)
+          setPromptError(e instanceof Error ? e.message : "Gagal memuat soal");
+      } finally {
+        if (!canceled) setPromptLoading(false);
+      }
+    }
+
+    if (quizId) loadPrompt();
+    return () => {
+      canceled = true;
+    };
+  }, [quizId, token, quizPrompt]);
 
   const [steps, setSteps] = useState("");
   const [finalAnswer, setFinalAnswer] = useState("");
@@ -50,7 +108,7 @@ export default function AnswerCardWithSteps({
       setLoading(true);
       setResult(null);
 
-      // gabungkan jadi satu string agar backend bisa membaca langkah + final answer
+      // Note: gabungan steps + finalAnswer => numeric fast-path tidak aktif
       const combined = `Langkah: ${steps.trim()} | Jawaban akhir: ${finalAnswer.trim()}`;
 
       const data = await api<GradeRes>("/api/ai/grade", token, {
@@ -60,11 +118,10 @@ export default function AnswerCardWithSteps({
 
       setResult(data);
     } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
-      } else {
-        setError("Gagal menilai jawaban.");
-      }
+      if (e instanceof Error) setError(e.message);
+      else setError("Gagal menilai jawaban.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,14 +136,33 @@ export default function AnswerCardWithSteps({
 
   return (
     <div className="space-y-4">
-      {quizPrompt && (
-        <div className="rounded-xl border p-4 bg-white">
-          <p className="text-xs text-gray-500 mb-1">Soal</p>
-          <p className="text-sm leading-relaxed">{quizPrompt}</p>
-        </div>
-      )}
+      {/* Soal */}
+      <div className="rounded-xl border p-4 bg-white">
+        <p className="text-xs text-gray-500 mb-1">Soal</p>
 
-      {/* Steps / Explanation */}
+        {/* Loading state */}
+        {promptLoading && (
+          <div className="animate-pulse space-y-2">
+            <div className="h-3 bg-gray-200 rounded w-5/6" />
+            <div className="h-3 bg-gray-200 rounded w-4/6" />
+            <div className="h-3 bg-gray-200 rounded w-3/6" />
+          </div>
+        )}
+
+        {/* Error state */}
+        {!promptLoading && promptError && (
+          <p className="text-sm text-rose-600">
+            {promptError} — pastikan endpoint <code>/api/quizzes/:id</code> tersedia.
+          </p>
+        )}
+
+        {/* Prompt */}
+        {!promptLoading && !promptError && (
+          <p className="text-sm leading-relaxed">{prompt || "—"}</p>
+        )}
+      </div>
+
+      {/* Steps */}
       <div>
         <label className="block text-sm font-medium mb-1">
           Ceritakan langkahmu
@@ -107,7 +183,7 @@ export default function AnswerCardWithSteps({
         </div>
       </div>
 
-      {/* Final Answer */}
+      {/* Final answer */}
       <div>
         <label className="block text-sm font-medium mb-1">Jawaban akhir</label>
         <input
@@ -121,7 +197,7 @@ export default function AnswerCardWithSteps({
         </p>
       </div>
 
-      {/* Confirmation */}
+      {/* Confirm checkbox */}
       <label className="flex items-center gap-2 text-sm select-none">
         <input
           type="checkbox"
@@ -131,18 +207,22 @@ export default function AnswerCardWithSteps({
         Saya sudah menjelaskan langkahnya.
       </label>
 
-      {/* Actions */}
+      {/* Action */}
       <div className="flex items-center gap-3">
         <button
           onClick={submit}
-          disabled={!isValid || loading}
+          disabled={!isValid || loading || promptLoading}
           className={`px-4 py-2 rounded-lg text-white transition ${
-            !isValid || loading
+            !isValid || loading || promptLoading
               ? "bg-black/40 cursor-not-allowed"
               : "bg-black hover:bg-black/90"
           }`}
         >
-          {loading ? "Menilai…" : "Cek Jawaban"}
+          {loading
+            ? "Menilai…"
+            : promptLoading
+            ? "Memuat Soal…"
+            : "Cek Jawaban"}
         </button>
         {error && <span className="text-sm text-rose-600">{error}</span>}
       </div>
@@ -155,7 +235,7 @@ export default function AnswerCardWithSteps({
         >
           <div className={`p-4 border rounded-xl ${color}`}>
             <p className="text-xs uppercase tracking-wide font-semibold">
-              {result.label.replace("_", " ")}
+              {result.label}
             </p>
             <p className="text-sm mt-1">{result.feedback}</p>
           </div>

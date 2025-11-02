@@ -1,4 +1,3 @@
-// src/components/auth/AuthCard.tsx
 export default function AuthCard({ title, subtitle, children }: {
   title: string; subtitle?: string; children: React.ReactNode;
 }) {

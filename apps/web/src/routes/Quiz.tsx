@@ -1,4 +1,3 @@
-// routes/Quiz.tsx
 import { useParams } from "react-router-dom";
 import AnswerCardWithSteps from "../components/quiz/AnsweredCardWithSteps";
 

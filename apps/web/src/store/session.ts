@@ -1,4 +1,3 @@
-// src/store/session.ts
 import { create } from "zustand";
 
 type S = {

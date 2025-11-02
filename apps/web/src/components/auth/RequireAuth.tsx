@@ -1,4 +1,3 @@
-// src/components/auth/RequireAuth.tsx
 import React from "react";
 import { useSession } from "../../store/session";
 import { Navigate, useLocation } from "react-router-dom";

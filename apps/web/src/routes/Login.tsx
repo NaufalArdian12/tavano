@@ -1,4 +1,3 @@
-// src/routes/Login.tsx
 import { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import AuthCard from "../components/auth/AuthCard";
